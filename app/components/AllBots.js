@@ -18,11 +18,6 @@ export default class AllBots extends Component {
     this.unsubscribe();
   }
 
-  handleDelete(evt) {
-    evt.preventDefault();
-    store.dispatch(deleteSingleCampus(Number(evt.target.value)))
-  }
-
   render() {
     const bots = this.state.bots;
     if (bots.length === 0) {
