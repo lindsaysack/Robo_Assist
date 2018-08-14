@@ -1,43 +1,6 @@
-const express = require('express')
-const app = express()
-const http = require('http');
+'use strict'
 
-//set options for requesting all bots
-let botsOptions = {
-    host: "localhost",
-    port: 3000,
-    path: '/bots',
-    method: 'GET',
-    headers: {
-        "Authorization": "af7822b30e7a65d"
-    }
-}
+const app = require('./server')
+const PORT = 1337
 
-//create variable to capture all bots
-let parsedBots = {}; 
-
-//http request for all bots
-let botReq = http.request(botsOptions, function (res) {
-    var responseString = "";
-    res.on("data", function (data) {
-        responseString += data;
-        // save all the data from response
-    });
-    res.on("end", function () {
-        parsedBots = JSON.parse(responseString);
-        console.log(parsedBots); 
-        
-        // print to console when response ends
-    });
-});
-
-botReq.on('error', (e) => {
-    console.error(`problem with request: ${e.message}`);
-  });
-botReq.write("hello world");
-botReq.end();
-
-//display all bots when visiting localhost:1337/
-app.get('/', (req, res) => res.send(parsedBots))
-
-app.listen(1337, () => console.log('Example app listening on port 1337!'))
+app.listen(PORT, () => console.log(`studiously serving silly sounds on port ${PORT}`))
