@@ -1,9 +1,26 @@
 'use strict';
 
+const { resolve } = require('path')
+
 module.exports = {
-    entry: './app/main', // the starting point for our program
-    output: {
-      path: __dirname + '/public', // the absolute path for the directory where we want the output to be placed
-      filename: 'bundle.js' // the name of the file that will contain our output - we could name this whatever we want, but bundle.js is typical
-    }
+  entry: ['babel-polyfill', './app/main'],
+  output: {
+    path: __dirname,
+    filename: './public/bundle.js'
+  },
+  mode: 'development',
+  context: __dirname,
+  devtool: 'source-map',
+  resolve: {
+    extensions: ['.js', '.jsx']
+  },
+  module: {
+    rules: [
+      {
+        test: /jsx?$/,
+        include: resolve(__dirname, './app'),
+        loader: 'babel-loader'
+      }
+    ]
   }
+};

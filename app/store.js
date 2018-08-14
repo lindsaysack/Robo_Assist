@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { createStore, applyMiddleware } from 'redux';
-import loggingMiddleware from '../../../Library/Caches/typescript/2.9/node_modules/@types/redux-logger'; // https://github.com/evgenyrodionov/redux-logger
+import loggingMiddleware from 'redux-logger'; // https://github.com/evgenyrodionov/redux-logger
 import thunkMiddleware from 'redux-thunk'; // https://github.com/gaearon/redux-thunk
 import { composeWithDevTools } from 'redux-devtools-extension';
 
