@@ -2,6 +2,7 @@ const express = require('express')
 const app = express()
 const http = require('http');
 
+//set options for requesting all bots
 let botsOptions = {
     host: "localhost",
     port: 3000,
@@ -12,8 +13,10 @@ let botsOptions = {
     }
 }
 
+//create variable to capture all bots
 let parsedBots = {}; 
 
+//http request for all bots
 let botReq = http.request(botsOptions, function (res) {
     var responseString = "";
     res.on("data", function (data) {
@@ -34,6 +37,7 @@ botReq.on('error', (e) => {
 botReq.write("hello world");
 botReq.end();
 
+//display all bots when visiting localhost:1337/
 app.get('/', (req, res) => res.send(parsedBots))
 
 app.listen(1337, () => console.log('Example app listening on port 1337!'))

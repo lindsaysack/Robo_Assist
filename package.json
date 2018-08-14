@@ -17,6 +17,15 @@
   },
   "homepage": "https://github.com/lindsaysack/Robo_Assist#readme",
   "dependencies": {
-    "express": "^4.16.3"
+    "axios": "^0.18.0",
+    "express": "^4.16.3",
+    "react": "^16.4.2",
+    "react-dom": "^16.4.2",
+    "react-redux": "^5.0.7",
+    "react-router-dom": "^4.3.1",
+    "redux": "^4.0.0",
+    "redux-devtools-extension": "^2.13.5",
+    "redux-logger": "^3.0.6",
+    "redux-thunk": "^2.3.0"
   }
 }
