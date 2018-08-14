@@ -4,7 +4,9 @@
   "description": "Robo Aisstant Assignment NYL",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start:dev": "webpack -w & nodemon app.js -e html,js,css --ignore public",
+    "start": "node app"
   },
   "repository": {
     "type": "git",
@@ -27,5 +29,8 @@
     "redux-devtools-extension": "^2.13.5",
     "redux-logger": "^3.0.6",
     "redux-thunk": "^2.3.0"
+  },
+  "devDependencies": {
+    "webpack": "^4.16.5"
   }
 }
