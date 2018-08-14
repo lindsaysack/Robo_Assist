@@ -307,7 +307,7 @@ var Navbar = function Navbar(props) {
         ),
         _react2.default.createElement(
           _reactRouterDom.Link,
-          { className: 'navbar-brand', to: '/campuses' },
+          { className: 'navbar-brand', to: '/bots' },
           'BOTS '
         )
       )
