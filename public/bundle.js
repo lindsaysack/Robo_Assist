@@ -526,7 +526,7 @@ var SingleBot = function (_Component) {
           'div',
           null,
           _react2.default.createElement(
-            'h3',
+            'h2',
             null,
             bot.name
           ),
@@ -542,6 +542,12 @@ var SingleBot = function (_Component) {
               null,
               'Model: ',
               bot.model
+            ),
+            _react2.default.createElement(
+              'h4',
+              null,
+              'Price: $',
+              bot.price
             )
           ),
           _react2.default.createElement(

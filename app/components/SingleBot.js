@@ -18,13 +18,15 @@ class SingleBot extends Component {
     return (
       <div>
       <div>
-        <h3>{bot.name}</h3>
+        <h2>{bot.name}</h2>
         <img
           src={bot.avatar}
           className="img-thumbnail"
         />
         <div>
           <h4>Model: {bot.model}</h4>
+          <h4>Price: ${bot.price}</h4>
+          {/* <h4>Model: {bot.model}</h4> */}
         </div>
         <div>
           <div>
