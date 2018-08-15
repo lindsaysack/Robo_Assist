@@ -114,6 +114,8 @@ var _reactRedux = __webpack_require__(/*! react-redux */ "./node_modules/react-r
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
@@ -126,7 +128,15 @@ var AllBots = function (_Component) {
   function AllBots() {
     _classCallCheck(this, AllBots);
 
-    return _possibleConstructorReturn(this, (AllBots.__proto__ || Object.getPrototypeOf(AllBots)).apply(this, arguments));
+    var _this = _possibleConstructorReturn(this, (AllBots.__proto__ || Object.getPrototypeOf(AllBots)).call(this));
+
+    _this.state = {
+      botName: '',
+      triggered: false
+    };
+    _this.handleChange = _this.handleChange.bind(_this);
+    // this.handleSubmit = this.handleSubmit.bind(this);
+    return _this;
   }
 
   _createClass(AllBots, [{
@@ -135,9 +145,20 @@ var AllBots = function (_Component) {
       this.props.fetchBots();
     }
   }, {
+    key: 'handleChange',
+    value: function handleChange(evt) {
+      var _setState;
+
+      this.setState((_setState = {}, _defineProperty(_setState, evt.target.name, evt.target.value), _defineProperty(_setState, 'triggered', true), _setState));
+    }
+  }, {
     key: 'render',
     value: function render() {
-      var bots = this.props.bots;
+      var _this2 = this;
+
+      var bots = this.props.bots.filter(function (bot) {
+        return bot.name.match(_this2.state.botName);
+      });
       if (bots.length === 0) {
         return _react2.default.createElement(
           'div',
@@ -164,7 +185,18 @@ var AllBots = function (_Component) {
         _react2.default.createElement(
           'h3',
           null,
-          'Bots'
+          'Search Bots'
+        ),
+        _react2.default.createElement(
+          'form',
+          { className: 'form-group', style: { marginTop: '20px' } },
+          _react2.default.createElement('input', {
+            className: 'form-control',
+            value: this.state.botName,
+            name: 'botName',
+            placeholder: 'Enter bot\'s name',
+            onChange: this.handleChange
+          })
         ),
         _react2.default.createElement(
           'div',

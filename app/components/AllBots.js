@@ -4,13 +4,26 @@ import { fetchBots, fetchSingleBot } from '../store';
 import {connect} from 'react-redux'
 
 class AllBots extends Component {
+  constructor() {
+    super();
+    this.state = {
+      botName: '',
+      triggered: false,
+    };
+    this.handleChange = this.handleChange.bind(this);
+    // this.handleSubmit = this.handleSubmit.bind(this);
+  }
 
-componentDidMount() {
+  componentDidMount() {
     this.props.fetchBots();
   }
 
+  handleChange(evt) {
+    this.setState({ [evt.target.name]: evt.target.value, triggered: true });
+  }
+
   render() {
-    const bots = this.props.bots;
+    const bots = this.props.bots.filter(bot => bot.name.match(this.state.botName));
     if (bots.length === 0) {
         return (
           <div>
@@ -23,7 +36,16 @@ componentDidMount() {
     }
     return (
       <div>
-        <h3>Bots</h3>
+        <h3>Search Bots</h3>
+        <form className="form-group" style={{marginTop: '20px'}}>
+          <input
+            className="form-control"
+            value={this.state.botName}
+            name="botName"
+            placeholder="Enter bot's name"
+            onChange={this.handleChange}   
+          />
+        </form>
         <div className="row">
           {bots.map(bot => {
             return (
