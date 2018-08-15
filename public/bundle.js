@@ -186,7 +186,7 @@ var AllBots = function (_Component) {
           bots.map(function (bot) {
             return _react2.default.createElement(
               'div',
-              { className: 'col-sm-4', key: bot.robo_id },
+              { className: 'col-sm-4', key: bot.name },
               _react2.default.createElement(
                 _reactRouterDom.Link,
                 { className: 'thumbnail', to: '/bots/' + bot.robo_id },

@@ -36,7 +36,7 @@ export default class AllBots extends Component {
         <div className="row">
           {bots.map(bot => {
             return (
-              <div className="col-sm-4" key={bot.robo_id}>
+              <div className="col-sm-4" key={bot.name}>
                 <Link className="thumbnail" to={`/bots/${bot.robo_id}`}>
                   <img className="img-thumbnail" src={bot.avatar} />
                   <div className="caption">

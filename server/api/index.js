@@ -16,10 +16,11 @@ let botsOptions = {
 }
 
 //create variable to capture all bots
-let parsedBots = {}; 
+let parsedBots = {};
+let singleBot = {};  
 
 //http request for all bots
-let botReq = http.request(botsOptions, function (res) {
+let botsReq = http.request(botsOptions, function (res) {
     var responseString = "";
     res.on("data", function (data) {
         responseString += data;
@@ -33,14 +34,44 @@ let botReq = http.request(botsOptions, function (res) {
     });
 });
 
-botReq.on('error', (e) => {
+botsReq.on('error', (e) => {
     console.error(`problem with request: ${e.message}`);
   });
-botReq.write("hello world");
-botReq.end();
+botsReq.write("hello world");
+botsReq.end();
 
 //display all bots when visiting localhost:1337/
 apiRouter.get('/', (req, res) => res.send(parsedBots))
+
+//display selected bot when visiting specific url 
+apiRouter.get('/:botId', (req, res) => {
+    let botsReq = http.request(botsOptions, function (res) {
+        var responseString = "";
+        res.on("data", function (data) {
+            console.log("HELLOOO")
+            responseString += data;
+            // save all the data from response
+        });
+        res.on("end", function () {
+            
+            singleBot = JSON.parse(responseString).filter(bot => {
+                console.log(req.params.botId); 
+                return bot.robo_id.$oid === req.params.botId})
+            console.log(singleBot); 
+            
+            // print to console when response ends
+        });
+    });
+    
+    botsReq.on('error', (e) => {
+        console.error(`problem with request: ${e.message}`);
+      });
+    botsReq.write("hello world");
+    botsReq.end();
+
+    res.send(singleBot[0])
+})
+
 
 apiRouter.use(function (req, res) {
 	res.status(404).end();
