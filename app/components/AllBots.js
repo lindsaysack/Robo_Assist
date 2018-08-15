@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import store, { fetchBots } from '../store';
+import { fetchBots, fetchSingleBot } from '../store';
 import {connect} from 'react-redux'
 
 class AllBots extends Component {
@@ -28,7 +28,7 @@ componentDidMount() {
           {bots.map(bot => {
             return (
               <div className="col-sm-4" key={bot.name}>
-                <Link className="thumbnail" to={`/bots/${bot.robo_id.$oid}`}>
+                <Link className="thumbnail" to={`/bots/${bot.robo_id.$oid}`} onClick={() => fetchBot(bot.robo_id.$oid)}>
                   <img className="img-thumbnail" src={bot.avatar} />
                   <div className="caption">
                     <h4>
@@ -54,7 +54,8 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     fetchBots: () => dispatch(fetchBots()),
+    fetchSingleBot: (botId) => dispatch(fetchSingleBot(botId))
   }
 }
-export default connect(mapStateToProps, mapDispatchToProps)
-(AllBots)
+
+export default connect(mapStateToProps, mapDispatchToProps)(AllBots)

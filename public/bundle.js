@@ -110,8 +110,6 @@ var _reactRouterDom = __webpack_require__(/*! react-router-dom */ "./node_module
 
 var _store = __webpack_require__(/*! ../store */ "./app/store.js");
 
-var _store2 = _interopRequireDefault(_store);
-
 var _reactRedux = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -177,7 +175,9 @@ var AllBots = function (_Component) {
               { className: 'col-sm-4', key: bot.name },
               _react2.default.createElement(
                 _reactRouterDom.Link,
-                { className: 'thumbnail', to: '/bots/' + bot.robo_id.$oid },
+                { className: 'thumbnail', to: '/bots/' + bot.robo_id.$oid, onClick: function onClick() {
+                    return fetchBot(bot.robo_id.$oid);
+                  } },
                 _react2.default.createElement('img', { className: 'img-thumbnail', src: bot.avatar }),
                 _react2.default.createElement(
                   'div',
@@ -213,9 +213,13 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
   return {
     fetchBots: function fetchBots() {
       return dispatch((0, _store.fetchBots)());
+    },
+    fetchSingleBot: function fetchSingleBot(botId) {
+      return dispatch((0, _store.fetchSingleBot)(botId));
     }
   };
 };
+
 exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(AllBots);
 
 /***/ }),
@@ -426,6 +430,8 @@ var _react = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 
 var _react2 = _interopRequireDefault(_react);
 
+var _reactRedux = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
+
 var _reactRouterDom = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/es/index.js");
 
 var _store = __webpack_require__(/*! ../store */ "./app/store.js");
@@ -439,8 +445,6 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-// import { connect } from 'react-redux';
-
 
 var SingleBot = function (_Component) {
   _inherits(SingleBot, _Component);
@@ -448,74 +452,64 @@ var SingleBot = function (_Component) {
   function SingleBot() {
     _classCallCheck(this, SingleBot);
 
-    var _this = _possibleConstructorReturn(this, (SingleBot.__proto__ || Object.getPrototypeOf(SingleBot)).call(this));
-
-    _this.state = _store2.default.getState();
-    return _this;
+    return _possibleConstructorReturn(this, (SingleBot.__proto__ || Object.getPrototypeOf(SingleBot)).apply(this, arguments));
   }
 
   _createClass(SingleBot, [{
-    key: "componentDidMount",
+    key: 'componentDidMount',
     value: function componentDidMount() {
-      var _this2 = this;
+      var botId = this.props.match.params.botId;
 
-      var thunk = (0, _store.fetchSingleBot)(this.props.match.params.botId);
-      _store2.default.dispatch(thunk);
-      this.unsubscribe = _store2.default.subscribe(function () {
-        return _this2.setState(_store2.default.getState());
-      });
+      console.log("botId", botId);
+      this.props.fetchBot(botId);
     }
   }, {
-    key: "componentWillUnmount",
-    value: function componentWillUnmount() {
-      this.unsubscribe();
-    }
-  }, {
-    key: "render",
+    key: 'render',
     value: function render() {
-      var bot = this.state.selectedBot;
+      var bot = this.props.bot;
+      console.log("bot", bot);
       return _react2.default.createElement(
-        "div",
+        'div',
         null,
         _react2.default.createElement(
-          "div",
+          'div',
           null,
           _react2.default.createElement(
-            "h3",
+            'h3',
             null,
             bot.name
           ),
-          _react2.default.createElement("img", {
+          _react2.default.createElement('img', {
             src: bot.avatar,
-            className: "img-thumbnail"
+            className: 'img-thumbnail'
           }),
           _react2.default.createElement(
-            "div",
+            'div',
             null,
             _react2.default.createElement(
-              "h4",
+              'h4',
               null,
-              "Model"
+              'Model'
             ),
             _react2.default.createElement(
-              "p",
+              'p',
               null,
               bot.model
             )
           ),
           _react2.default.createElement(
-            "div",
+            'div',
             null,
             _react2.default.createElement(
-              "div",
+              'div',
               null,
               _react2.default.createElement(
-                "h3",
+                'h3',
                 null,
-                "Reviews for ",
+                'Reviews for ',
                 bot.name
               ),
-              _react2.default.createElement("div", { className: "row" })
+              _react2.default.createElement('div', { className: 'row' })
             )
           )
         )
@@ -526,7 +520,22 @@ var SingleBot = function (_Component) {
   return SingleBot;
 }(_react.Component);
 
-exports.default = SingleBot;
+var mapStateToProps = function mapStateToProps(state) {
+  return {
+    bot: state.selectedBot
+  };
+};
+
+var mapDispatchToProps = function mapDispatchToProps(dispatch) {
+
+  return {
+    fetchBot: function fetchBot(botId) {
+      return dispatch((0, _store.fetchSingleBot)(botId));
+    }
+  };
+};
+
+exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(SingleBot);
 
 /***/ }),
 
@@ -548,8 +557,6 @@ var _reactDom = __webpack_require__(/*! react-dom */ "./node_modules/react-dom/i
 
 var _reactRedux = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
 
-var _reactRouterDom = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/es/index.js");
-
 var _store = __webpack_require__(/*! ./store */ "./app/store.js");
 
 var _store2 = _interopRequireDefault(_store);
@@ -565,8 +572,6 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
   { store: _store2.default },
   _react2.default.createElement(_Root2.default, null)
 ), document.getElementById('main'));
-
-//use for reference: https://github.com/FullstackAcademy/stackchat/blob/day2-solution/client/index.js
 
 /***/ }),
 
@@ -680,8 +685,6 @@ function reducer() {
 }
 
 exports.default = (0, _redux.createStore)(reducer, (0, _reduxDevtoolsExtension.composeWithDevTools)((0, _redux.applyMiddleware)(_reduxThunk2.default, _reduxLogger2.default)));
-
-//https://github.com/FullstackAcademy/stackchat/blob/day2-solution/client/store/index.js
 
 /***/ }),
 

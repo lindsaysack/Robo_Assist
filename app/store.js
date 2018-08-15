@@ -78,5 +78,3 @@ export default createStore(
   reducer,
   composeWithDevTools(applyMiddleware(thunkMiddleware, loggingMiddleware))
 );
-
-//https://github.com/FullstackAcademy/stackchat/blob/day2-solution/client/store/index.js

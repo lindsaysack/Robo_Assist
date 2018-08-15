@@ -1,26 +1,18 @@
 import React, { Component } from "react";
-// import { connect } from 'react-redux';
+import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import store, { fetchSingleBot } from "../store";
 
-export default class SingleBot extends Component {
-  constructor() {
-    super();
-    this.state = store.getState();
-  }
-
-  componentDidMount() {
-    const thunk = fetchSingleBot(this.props.match.params.botId);
-    store.dispatch(thunk)
-    this.unsubscribe = store.subscribe(() => this.setState(store.getState()));
-  }
-
-  componentWillUnmount() {
-    this.unsubscribe();
-  }
+class SingleBot extends Component {
+    componentDidMount() {
+        const { botId } = this.props.match.params;
+        console.log("botId", botId)
+        this.props.fetchBot(botId);
+    }
 
   render() {
-    const bot = this.state.selectedBot;
+    const bot = this.props.bot;
+    console.log("bot", bot)
     return (
       <div>
       <div>
@@ -61,4 +53,18 @@ export default class SingleBot extends Component {
   }
 }
 
+const mapStateToProps = state => {
+    return {
+      bot: state.selectedBot,
+    }
+}
+  
+const mapDispatchToProps = dispatch => {
+    
+    return {
+      fetchBot: botId => dispatch(fetchSingleBot(botId)),
+    }
+} 
+  
+export default connect(mapStateToProps, mapDispatchToProps)(SingleBot)
 
