@@ -1,25 +1,16 @@
 import React, { Component } from 'react';
-import { Link, Redirect } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import store, { fetchBots } from '../store';
+import {connect} from 'react-redux'
 
-export default class AllBots extends Component {
-  constructor() {
-    super();
-    this.state = store.getState();
-  }
+class AllBots extends Component {
 
-  componentDidMount() {
-    const fetchThunk = fetchBots();
-    store.dispatch(fetchThunk);
-    this.unsubscribe = store.subscribe(() => this.setState(store.getState()));
-  }
-
-  componentWillUnmount() {
-    this.unsubscribe();
+componentDidMount() {
+    this.props.fetchBots();
   }
 
   render() {
-    const bots = this.state.bots;
+    const bots = this.props.bots;
     if (bots.length === 0) {
         return (
           <div>
@@ -53,3 +44,17 @@ export default class AllBots extends Component {
     );
   }
 }
+
+const mapStateToProps = state => {
+  return {
+    bots: state.bots
+  }
+}
+
+const mapDispatchToProps = dispatch => {
+  return {
+    fetchBots: () => dispatch(fetchBots()),
+  }
+}
+export default connect(mapStateToProps, mapDispatchToProps)
+(AllBots)

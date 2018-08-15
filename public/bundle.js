@@ -112,6 +112,8 @@ var _store = __webpack_require__(/*! ../store */ "./app/store.js");
 
 var _store2 = _interopRequireDefault(_store);
 
+var _reactRedux = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -126,32 +128,18 @@ var AllBots = function (_Component) {
   function AllBots() {
     _classCallCheck(this, AllBots);
 
-    var _this = _possibleConstructorReturn(this, (AllBots.__proto__ || Object.getPrototypeOf(AllBots)).call(this));
-
-    _this.state = _store2.default.getState();
-    return _this;
+    return _possibleConstructorReturn(this, (AllBots.__proto__ || Object.getPrototypeOf(AllBots)).apply(this, arguments));
   }
 
   _createClass(AllBots, [{
     key: 'componentDidMount',
     value: function componentDidMount() {
-      var _this2 = this;
-
-      var fetchThunk = (0, _store.fetchBots)();
-      _store2.default.dispatch(fetchThunk);
-      this.unsubscribe = _store2.default.subscribe(function () {
-        return _this2.setState(_store2.default.getState());
-      });
-    }
-  }, {
-    key: 'componentWillUnmount',
-    value: function componentWillUnmount() {
-      this.unsubscribe();
+      this.props.fetchBots();
     }
   }, {
     key: 'render',
     value: function render() {
-      var bots = this.state.bots;
+      var bots = this.props.bots;
       if (bots.length === 0) {
         return _react2.default.createElement(
           'div',
@@ -215,7 +203,20 @@ var AllBots = function (_Component) {
   return AllBots;
 }(_react.Component);
 
-exports.default = AllBots;
+var mapStateToProps = function mapStateToProps(state) {
+  return {
+    bots: state.bots
+  };
+};
+
+var mapDispatchToProps = function mapDispatchToProps(dispatch) {
+  return {
+    fetchBots: function fetchBots() {
+      return dispatch((0, _store.fetchBots)());
+    }
+  };
+};
+exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(AllBots);
 
 /***/ }),
 
@@ -511,8 +512,8 @@ var SingleBot = function (_Component) {
               _react2.default.createElement(
                 "h3",
                 null,
-                bot.name,
-                " Reviews"
+                "Reviews for ",
+                bot.name
               ),
               _react2.default.createElement("div", { className: "row" })
             )
