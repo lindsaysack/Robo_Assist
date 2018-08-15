@@ -7,8 +7,9 @@ class SingleBot extends Component {
 
 
     componentDidMount() {
-        const { botName } = this.props.match.params;
-        this.props.fetchBot(botName);
+        const { robo_id } = this.props.match.params;
+        console.log(robo_id)
+        this.props.fetchBot(robo_id);
     }
 
   render() {
@@ -61,7 +62,7 @@ const mapStateToProps = state => {
   
 const mapDispatchToProps = dispatch => {
     return {
-      fetchBot: botName => dispatch(fetchSingleBot(botName)),
+      fetchBot: robo_id => dispatch(fetchSingleBot(robo_id)),
     }
 } 
   

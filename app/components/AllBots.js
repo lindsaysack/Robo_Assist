@@ -23,17 +23,7 @@ class AllBots extends Component {
   }
 
   render() {
-    const bots = this.props.bots.filter(bot => bot.name.match(this.state.botName));
-    if (bots.length === 0) {
-        return (
-          <div>
-            <h3>Bots</h3>
-            <div>
-            <h3>There are no bots to display</h3>
-            </div>
-          </div>
-          )
-    }
+    const bots = this.props.bots.filter(bot => bot.name.toLowerCase().match(this.state.botName));
     return (
       <div>
         <h3>Search Bots</h3>
@@ -47,10 +37,17 @@ class AllBots extends Component {
           />
         </form>
         <div className="row">
-          {bots.map(bot => {
+          {(bots.length === 0) ?
+          (<div>
+            <div>
+            <h3>There are no bots to display</h3>
+            </div>
+          </div>
+          ) :
+            bots.map(bot => {
             return (
               <div className="col-sm-4" key={bot.name}>
-                <Link className="thumbnail" to={`/bots/${bot.name}`} onClick={() => fetchBot(bot.name)}>
+                <Link className="thumbnail" to={`/detail/${bot.robo_id.$oid}`} onClick={() => fetchSingleBot(bot.robo_id.$oid)}>
                   <img className="img-thumbnail" src={bot.avatar} />
                   <div className="caption">
                     <h4>
@@ -77,7 +74,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     fetchBots: () => dispatch(fetchBots()),
-    fetchSingleBot: (botName) => dispatch(fetchSingleBot(botName))
+    fetchSingleBot: (robo_id) => dispatch(fetchSingleBot(robo_id))
   }
 }
 

@@ -42,10 +42,11 @@ export function fetchBots() {
   };
 }
 
-export function fetchSingleBot(botName) {
+export function fetchSingleBot(robo_id) {
+  console.log("inside thunk", robo_id)
   return function thunk(dispatch) {
     return axios
-      .get(`/api/${botName}`)
+      .get(`/api/${robo_id}`)
       .then(res => res.data)
       .then(bot => {
         const action = getBot(bot);

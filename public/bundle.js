@@ -157,28 +157,8 @@ var AllBots = function (_Component) {
       var _this2 = this;
 
       var bots = this.props.bots.filter(function (bot) {
-        return bot.name.match(_this2.state.botName);
+        return bot.name.toLowerCase().match(_this2.state.botName);
       });
-      if (bots.length === 0) {
-        return _react2.default.createElement(
-          'div',
-          null,
-          _react2.default.createElement(
-            'h3',
-            null,
-            'Bots'
-          ),
-          _react2.default.createElement(
-            'div',
-            null,
-            _react2.default.createElement(
-              'h3',
-              null,
-              'There are no bots to display'
-            )
-          )
-        );
-      }
       return _react2.default.createElement(
         'div',
         null,
@@ -201,14 +181,26 @@ var AllBots = function (_Component) {
         _react2.default.createElement(
           'div',
           { className: 'row' },
-          bots.map(function (bot) {
+          bots.length === 0 ? _react2.default.createElement(
+            'div',
+            null,
+            _react2.default.createElement(
+              'div',
+              null,
+              _react2.default.createElement(
+                'h3',
+                null,
+                'There are no bots to display'
+              )
+            )
+          ) : bots.map(function (bot) {
             return _react2.default.createElement(
               'div',
               { className: 'col-sm-4', key: bot.name },
               _react2.default.createElement(
                 _reactRouterDom.Link,
-                { className: 'thumbnail', to: '/bots/' + bot.name, onClick: function onClick() {
-                    return fetchBot(bot.name);
+                { className: 'thumbnail', to: '/detail/' + bot.robo_id.$oid, onClick: function onClick() {
+                    return (0, _store.fetchSingleBot)(bot.robo_id.$oid);
                   } },
                 _react2.default.createElement('img', { className: 'img-thumbnail', src: bot.avatar }),
                 _react2.default.createElement(
@@ -247,8 +239,8 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
     fetchBots: function fetchBots() {
       return dispatch((0, _store.fetchBots)());
     },
-    fetchSingleBot: function fetchSingleBot(botName) {
-      return dispatch((0, _store.fetchSingleBot)(botName));
+    fetchSingleBot: function fetchSingleBot(robo_id) {
+      return dispatch((0, _store.fetchSingleBot)(robo_id));
     }
   };
 };
@@ -430,7 +422,7 @@ var Main = function (_Component) {
           ),
           _react2.default.createElement(_reactRouterDom.Route, { exact: true, path: '/', component: _HomePage2.default }),
           _react2.default.createElement(_reactRouterDom.Route, { exact: true, path: '/bots', component: _AllBots2.default }),
-          _react2.default.createElement(_reactRouterDom.Route, { exact: true, path: '/bots/:botName', component: _SingleBot2.default })
+          _react2.default.createElement(_reactRouterDom.Route, { exact: true, path: '/detail/:robo_id', component: _SingleBot2.default })
         )
       );
     }
@@ -491,9 +483,10 @@ var SingleBot = function (_Component) {
   _createClass(SingleBot, [{
     key: 'componentDidMount',
     value: function componentDidMount() {
-      var botName = this.props.match.params.botName;
+      var robo_id = this.props.match.params.robo_id;
 
-      this.props.fetchBot(botName);
+      console.log(robo_id);
+      this.props.fetchBot(robo_id);
     }
   }, {
     key: 'render',
@@ -559,8 +552,8 @@ var mapStateToProps = function mapStateToProps(state) {
 
 var mapDispatchToProps = function mapDispatchToProps(dispatch) {
   return {
-    fetchBot: function fetchBot(botName) {
-      return dispatch((0, _store.fetchSingleBot)(botName));
+    fetchBot: function fetchBot(robo_id) {
+      return dispatch((0, _store.fetchSingleBot)(robo_id));
     }
   };
 };
@@ -683,9 +676,10 @@ function fetchBots() {
   };
 }
 
-function fetchSingleBot(botName) {
+function fetchSingleBot(robo_id) {
+  console.log("inside thunk", robo_id);
   return function thunk(dispatch) {
-    return _axios2.default.get('/api/' + botName).then(function (res) {
+    return _axios2.default.get('/api/' + robo_id).then(function (res) {
       return res.data;
     }).then(function (bot) {
       var action = getBot(bot);

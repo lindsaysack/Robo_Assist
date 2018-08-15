@@ -44,7 +44,7 @@ botsReq.end();
 apiRouter.get('/', (req, res) => res.send(parsedBots))
 
 //display selected bot when visiting specific url 
-apiRouter.get('/:botName', (req, res) => {
+apiRouter.get('/:robo_id', (req, res) => {
     let botsReq = http.request(botsOptions, function (res) {
         var responseString = "";
         res.on("data", function (data) {
@@ -53,8 +53,8 @@ apiRouter.get('/:botName', (req, res) => {
         });
         res.on("end", function () {
             singleBot = JSON.parse(responseString).filter(bot => {
-                return bot.name === req.params.botName})
-            console.log(singleBot); 
+                return bot.robo_id.$oid === req.params.robo_id})
+            console.log(singleBot[0]); 
             // print to console when response ends
         });
     });
