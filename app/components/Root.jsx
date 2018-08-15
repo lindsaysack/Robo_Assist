@@ -3,7 +3,8 @@ import { BrowserRouter as Router, Route } from 'react-router-dom';
 // import store from '../store';
 import Navbar from './Navbar';
 import AllBots from './AllBots';
-import HomePage from './HomePage'
+import SingleBot from './SingleBot';
+import HomePage from './HomePage';
 
 export default class Main extends Component {
   render() {
@@ -15,6 +16,7 @@ export default class Main extends Component {
           </div>
           <Route exact path="/" component={HomePage} />
           <Route exact path="/bots" component={AllBots} />
+          <Route exact path="/botId" component={SingleBot} />
         </div>
       </Router>
     );

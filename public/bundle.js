@@ -349,6 +349,10 @@ var _AllBots = __webpack_require__(/*! ./AllBots */ "./app/components/AllBots.js
 
 var _AllBots2 = _interopRequireDefault(_AllBots);
 
+var _SingleBot = __webpack_require__(/*! ./SingleBot */ "./app/components/SingleBot.js");
+
+var _SingleBot2 = _interopRequireDefault(_SingleBot);
+
 var _HomePage = __webpack_require__(/*! ./HomePage */ "./app/components/HomePage.js");
 
 var _HomePage2 = _interopRequireDefault(_HomePage);
@@ -387,7 +391,8 @@ var Main = function (_Component) {
             _react2.default.createElement(_Navbar2.default, { className: 'col-sm-2' })
           ),
           _react2.default.createElement(_reactRouterDom.Route, { exact: true, path: '/', component: _HomePage2.default }),
-          _react2.default.createElement(_reactRouterDom.Route, { exact: true, path: '/bots', component: _AllBots2.default })
+          _react2.default.createElement(_reactRouterDom.Route, { exact: true, path: '/bots', component: _AllBots2.default }),
+          _react2.default.createElement(_reactRouterDom.Route, { exact: true, path: '/botId', component: _SingleBot2.default })
         )
       );
     }
@@ -397,6 +402,161 @@ var Main = function (_Component) {
 }(_react.Component);
 
 exports.default = Main;
+
+/***/ }),
+
+/***/ "./app/components/SingleBot.js":
+/*!*************************************!*\
+  !*** ./app/components/SingleBot.js ***!
+  \*************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+
+var _react2 = _interopRequireDefault(_react);
+
+var _reactRouterDom = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/es/index.js");
+
+var _store = __webpack_require__(/*! ../store */ "./app/store.js");
+
+var _store2 = _interopRequireDefault(_store);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+// import { connect } from 'react-redux';
+
+
+var SingleBot = function (_Component) {
+  _inherits(SingleBot, _Component);
+
+  function SingleBot() {
+    _classCallCheck(this, SingleBot);
+
+    var _this = _possibleConstructorReturn(this, (SingleBot.__proto__ || Object.getPrototypeOf(SingleBot)).call(this));
+
+    _this.state = _store2.default.getState();
+    return _this;
+  }
+
+  _createClass(SingleBot, [{
+    key: "componentDidMount",
+    value: function componentDidMount() {
+      var _this2 = this;
+
+      var thunk = (0, _store.fetchSingleBot)(this.props.match.params.botId);
+      _store2.default.dispatch(thunk);
+      this.unsubscribe = _store2.default.subscribe(function () {
+        return _this2.setState(_store2.default.getState());
+      });
+    }
+  }, {
+    key: "componentWillUnmount",
+    value: function componentWillUnmount() {
+      this.unsubscribe();
+    }
+  }, {
+    key: "render",
+    value: function render() {
+      var bot = this.state.selectedBot;
+      return _react2.default.createElement(
+        "div",
+        null,
+        _react2.default.createElement(
+          "div",
+          null,
+          _react2.default.createElement(
+            "h3",
+            null,
+            bot.name
+          ),
+          _react2.default.createElement("img", {
+            src: bot.avatar,
+            className: "img-thumbnail"
+          }),
+          _react2.default.createElement(
+            "div",
+            null,
+            _react2.default.createElement(
+              "h4",
+              null,
+              "Model"
+            ),
+            _react2.default.createElement(
+              "p",
+              null,
+              bot.model
+            )
+          ),
+          _react2.default.createElement(
+            "div",
+            null,
+            _react2.default.createElement(
+              "div",
+              null,
+              _react2.default.createElement(
+                "h3",
+                null,
+                bot.name,
+                " Reviews"
+              ),
+              _react2.default.createElement(
+                "div",
+                { className: "row" },
+                bot.reviews.map(function (review) {
+                  return _react2.default.createElement(
+                    "div",
+                    { className: "col-sm-4", key: reviewsID++ },
+                    _react2.default.createElement(
+                      "div",
+                      { className: "caption" },
+                      _react2.default.createElement(
+                        "h4",
+                        null,
+                        _react2.default.createElement(
+                          "span",
+                          null,
+                          review.rating
+                        )
+                      )
+                    ),
+                    _react2.default.createElement(
+                      "div",
+                      null,
+                      _react2.default.createElement(
+                        "span",
+                        null,
+                        review.review
+                      )
+                    )
+                  );
+                })
+              )
+            )
+          )
+        )
+      );
+    }
+  }]);
+
+  return SingleBot;
+}(_react.Component);
+
+exports.default = SingleBot;
 
 /***/ }),
 
@@ -459,7 +619,9 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 
 
 exports.getBots = getBots;
+exports.getBot = getBot;
 exports.fetchBots = fetchBots;
+exports.fetchSingleBot = fetchSingleBot;
 
 var _axios = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 
@@ -482,17 +644,24 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 // INITIAL STATE
 
 var initialState = {
-  bots: []
+  bots: [],
+  selectedBot: {}
 };
 
 // ACTION TYPES
 
 var GET_BOTS = 'GET_BOTS';
+var GET_BOT = 'GET_BOT';
 
 // ACTION CREATORS
 
 function getBots(bots) {
   var action = { type: GET_BOTS, payload: bots };
+  return action;
+}
+
+function getBot(bot) {
+  var action = { type: GET_BOT, payload: bot };
   return action;
 }
 
@@ -509,6 +678,17 @@ function fetchBots() {
   };
 }
 
+function fetchSingleBot(botId) {
+  return function thunk(dispatch) {
+    return _axios2.default.get('/api/' + botId).then(function (res) {
+      return res.data;
+    }).then(function (bot) {
+      var action = getBot(bot);
+      dispatch(action);
+    });
+  };
+}
+
 // REDUCER
 
 function reducer() {
@@ -520,7 +700,10 @@ function reducer() {
       return _extends({}, state, {
         bots: action.payload
       });
-
+    case GET_BOT:
+      return _extends({}, state, {
+        selectedBot: action.payload
+      });
     default:
       return state;
   }

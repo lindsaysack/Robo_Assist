@@ -8,16 +8,23 @@ import { composeWithDevTools } from 'redux-devtools-extension';
 
 const initialState = {
   bots: [],
+  selectedBot: {}
 };
 
 // ACTION TYPES
 
 const GET_BOTS = 'GET_BOTS'; 
+const GET_BOT = 'GET_BOT'; 
 
 // ACTION CREATORS
 
 export function getBots(bots) {
   const action = { type: GET_BOTS, payload: bots };
+  return action;
+}
+
+export function getBot(bot) {
+  const action = { type: GET_BOT, payload: bot };
   return action;
 }
 
@@ -35,6 +42,18 @@ export function fetchBots() {
   };
 }
 
+export function fetchSingleBot(botId) {
+  return function thunk(dispatch) {
+    return axios
+      .get(`/api/${botId}`)
+      .then(res => res.data)
+      .then(bot => {
+        const action = getBot(bot);
+        dispatch(action);
+      });
+  };
+}
+
 
 // REDUCER
 
@@ -45,7 +64,11 @@ function reducer(state = initialState, action) {
         ...state,
         bots: action.payload
       };
-
+    case GET_BOT:
+      return {
+        ...state,
+        selectedBot: action.payload
+      };
     default:
       return state;
   }
