@@ -37,7 +37,7 @@ export default class SingleBot extends Component {
           <div>
         <h3>{bot.name} Reviews</h3>
         <div className="row">
-          {bot.reviews.map(review => {
+          {/* {bot.reviews.map(review => {
             return (
               <div className="col-sm-4" key={reviewsID++}>          
                   <div className="caption">
@@ -50,7 +50,7 @@ export default class SingleBot extends Component {
                 </div>
               </div>
             );
-          })}
+          })} */}
         </div>
       </div>
 

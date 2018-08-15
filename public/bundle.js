@@ -189,7 +189,7 @@ var AllBots = function (_Component) {
               { className: 'col-sm-4', key: bot.name },
               _react2.default.createElement(
                 _reactRouterDom.Link,
-                { className: 'thumbnail', to: '/bots/' + bot.robo_id },
+                { className: 'thumbnail', to: '/bots/' + bot.robo_id.$oid },
                 _react2.default.createElement('img', { className: 'img-thumbnail', src: bot.avatar }),
                 _react2.default.createElement(
                   'div',
@@ -392,7 +392,7 @@ var Main = function (_Component) {
           ),
           _react2.default.createElement(_reactRouterDom.Route, { exact: true, path: '/', component: _HomePage2.default }),
           _react2.default.createElement(_reactRouterDom.Route, { exact: true, path: '/bots', component: _AllBots2.default }),
-          _react2.default.createElement(_reactRouterDom.Route, { exact: true, path: '/botId', component: _SingleBot2.default })
+          _react2.default.createElement(_reactRouterDom.Route, { exact: true, path: '/bots/:botId', component: _SingleBot2.default })
         )
       );
     }
@@ -514,38 +514,7 @@ var SingleBot = function (_Component) {
                 bot.name,
                 " Reviews"
               ),
-              _react2.default.createElement(
-                "div",
-                { className: "row" },
-                bot.reviews.map(function (review) {
-                  return _react2.default.createElement(
-                    "div",
-                    { className: "col-sm-4", key: reviewsID++ },
-                    _react2.default.createElement(
-                      "div",
-                      { className: "caption" },
-                      _react2.default.createElement(
-                        "h4",
-                        null,
-                        _react2.default.createElement(
-                          "span",
-                          null,
-                          review.rating
-                        )
-                      )
-                    ),
-                    _react2.default.createElement(
-                      "div",
-                      null,
-                      _react2.default.createElement(
-                        "span",
-                        null,
-                        review.review
-                      )
-                    )
-                  );
-                })
-              )
+              _react2.default.createElement("div", { className: "row" })
             )
           )
         )

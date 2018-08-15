@@ -48,17 +48,13 @@ apiRouter.get('/:botId', (req, res) => {
     let botsReq = http.request(botsOptions, function (res) {
         var responseString = "";
         res.on("data", function (data) {
-            console.log("HELLOOO")
             responseString += data;
             // save all the data from response
         });
         res.on("end", function () {
-            
             singleBot = JSON.parse(responseString).filter(bot => {
-                console.log(req.params.botId); 
                 return bot.robo_id.$oid === req.params.botId})
             console.log(singleBot); 
-            
             // print to console when response ends
         });
     });

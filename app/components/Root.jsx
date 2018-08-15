@@ -16,7 +16,7 @@ export default class Main extends Component {
           </div>
           <Route exact path="/" component={HomePage} />
           <Route exact path="/bots" component={AllBots} />
-          <Route exact path="/botId" component={SingleBot} />
+          <Route exact path="/bots/:botId" component={SingleBot} />
         </div>
       </Router>
     );
