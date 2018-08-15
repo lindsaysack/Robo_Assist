@@ -15,9 +15,10 @@ let botsOptions = {
     }
 }
 
-//create variable to capture all bots
+//create variables to capture bots and reviews 
 let parsedBots = {};
 let singleBot = {};  
+let botReviews = {}; 
 
 //http request for all bots
 let botsReq = http.request(botsOptions, function (res) {
@@ -66,6 +67,38 @@ apiRouter.get('/:robo_id', (req, res) => {
     botsReq.end();
 
     res.send(singleBot[0])
+})
+
+apiRouter.get('/reviews/:reviewsId', (req, res) => {
+    let reviewsReq = http.request(
+        {
+            host: "localhost",
+            port: 3000,
+            path: `/reviews/${req.params.reviewsId}`,
+            method: 'GET',
+            headers: {
+                "Authorization": "af7822b30e7a65d"
+            }
+        }, function (res) {
+        var responseString = "";
+        res.on("data", function (data) {
+            responseString += data;
+            // save all the data from response
+        });
+        res.on("end", function () {
+            botReviews = JSON.parse(responseString)
+            console.log(botReviews); 
+            // print to console when response ends
+        });
+    });
+    
+    reviewsReq.on('error', (e) => {
+        console.error(`problem with request: ${e.message}`);
+      });
+    reviewsReq.write("hello world");
+    reviewsReq.end();
+
+    res.send(botReviews)
 })
 
 

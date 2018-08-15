@@ -11,7 +11,6 @@ class AllBots extends Component {
       triggered: false,
     };
     this.handleChange = this.handleChange.bind(this);
-    // this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   componentDidMount() {

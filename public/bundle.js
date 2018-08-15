@@ -135,7 +135,6 @@ var AllBots = function (_Component) {
       triggered: false
     };
     _this.handleChange = _this.handleChange.bind(_this);
-    // this.handleSubmit = this.handleSubmit.bind(this);
     return _this;
   }
 
@@ -618,8 +617,10 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 
 exports.getBots = getBots;
 exports.getBot = getBot;
+exports.getReviews = getReviews;
 exports.fetchBots = fetchBots;
 exports.fetchSingleBot = fetchSingleBot;
+exports.fetchReviews = fetchReviews;
 
 var _axios = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 
@@ -643,13 +644,15 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 var initialState = {
   bots: [],
-  selectedBot: {}
+  selectedBot: {},
+  botReviews: []
 };
 
 // ACTION TYPES
 
 var GET_BOTS = 'GET_BOTS';
 var GET_BOT = 'GET_BOT';
+var GET_REVIEWS = 'GET_REVIEWS';
 
 // ACTION CREATORS
 
@@ -660,6 +663,11 @@ function getBots(bots) {
 
 function getBot(bot) {
   var action = { type: GET_BOT, payload: bot };
+  return action;
+}
+
+function getReviews(reviews) {
+  var action = { type: GET_REVIEWS, payload: reviews };
   return action;
 }
 
@@ -677,12 +685,22 @@ function fetchBots() {
 }
 
 function fetchSingleBot(robo_id) {
-  console.log("inside thunk", robo_id);
   return function thunk(dispatch) {
     return _axios2.default.get('/api/' + robo_id).then(function (res) {
       return res.data;
     }).then(function (bot) {
       var action = getBot(bot);
+      dispatch(action);
+    });
+  };
+}
+
+function fetchReviews(reviewsId) {
+  return function thunk(dispatch) {
+    return _axios2.default.get('/api/reviews/' + reviewsId).then(function (res) {
+      return res.data;
+    }).then(function (reviews) {
+      var action = getReviews(reviews);
       dispatch(action);
     });
   };
@@ -702,6 +720,10 @@ function reducer() {
     case GET_BOT:
       return _extends({}, state, {
         selectedBot: action.payload
+      });
+    case GET_REVIEWS:
+      return _extends({}, state, {
+        botReviews: action.payload
       });
     default:
       return state;

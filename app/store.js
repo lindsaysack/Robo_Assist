@@ -8,13 +8,15 @@ import { composeWithDevTools } from 'redux-devtools-extension';
 
 const initialState = {
   bots: [],
-  selectedBot: {}
+  selectedBot: {},
+  botReviews: []
 };
 
 // ACTION TYPES
 
 const GET_BOTS = 'GET_BOTS'; 
 const GET_BOT = 'GET_BOT'; 
+const GET_REVIEWS = 'GET_REVIEWS';  
 
 // ACTION CREATORS
 
@@ -25,6 +27,11 @@ export function getBots(bots) {
 
 export function getBot(bot) {
   const action = { type: GET_BOT, payload: bot };
+  return action;
+}
+
+export function getReviews(reviews) {
+  const action = { type: GET_REVIEWS, payload: reviews };
   return action;
 }
 
@@ -43,13 +50,24 @@ export function fetchBots() {
 }
 
 export function fetchSingleBot(robo_id) {
-  console.log("inside thunk", robo_id)
   return function thunk(dispatch) {
     return axios
       .get(`/api/${robo_id}`)
       .then(res => res.data)
       .then(bot => {
         const action = getBot(bot);
+        dispatch(action);
+      });
+  };
+}
+
+export function fetchReviews(reviewsId) {
+  return function thunk(dispatch) {
+    return axios
+      .get(`/api/reviews/${reviewsId}`)
+      .then(res => res.data)
+      .then(reviews => {
+        const action = getReviews(reviews);
         dispatch(action);
       });
   };
@@ -70,6 +88,11 @@ function reducer(state = initialState, action) {
         ...state,
         selectedBot: action.payload
       };
+    case GET_REVIEWS:
+    return {
+      ...state,
+      botReviews: action.payload
+    };
     default:
       return state;
   }
