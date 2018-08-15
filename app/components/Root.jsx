@@ -11,7 +11,7 @@ export default class Main extends Component {
       <Router>
         <div id="main" className="container-fluid">
           <div>
-            <Navbar className="col-sm-2"/>
+          <Navbar className="col-sm-2"/>
           </div>
           <Route exact path="/" component={HomePage} />
           <Route exact path="/bots" component={AllBots} />

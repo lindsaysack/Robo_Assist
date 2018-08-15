@@ -252,7 +252,7 @@ var HomePage = function HomePage() {
                 _react2.default.createElement(
                     "span",
                     null,
-                    "Campus + Student Manager"
+                    "Robot Assistant Finder"
                 )
             )
         ),

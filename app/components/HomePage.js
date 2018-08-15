@@ -7,7 +7,7 @@ const HomePage = () => {
         <div>
          <div>
             <h4 className="text-center">
-              <span>Campus + Student Manager</span>
+              <span>Robot Assistant Finder</span>
             </h4>
         </div>
         <div>
