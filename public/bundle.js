@@ -500,7 +500,7 @@ function getBots(bots) {
 
 function fetchBots() {
   return function thunk(dispatch) {
-    return _axios2.default.get('/api/bots').then(function (res) {
+    return _axios2.default.get('/api').then(function (res) {
       return res.data;
     }).then(function (bots) {
       var action = getBots(bots);

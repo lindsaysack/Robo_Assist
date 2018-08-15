@@ -26,7 +26,7 @@ export function getBots(bots) {
 export function fetchBots() {
   return function thunk(dispatch) {
     return axios
-      .get('/api/bots')
+      .get('/api')
       .then(res => res.data)
       .then(bots => {
         const action = getBots(bots);
