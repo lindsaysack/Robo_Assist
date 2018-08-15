@@ -11,7 +11,7 @@ const HomePage = () => {
             </h4>
         </div>
         <div>
-        <img className="center" src="https://cdn.dribbble.com/users/449446/screenshots/2742028/campus-illustration-2.gif" />
+        <img className="center" src="https://www.cbronline.com/wp-content/uploads/2017/08/robot-friends-770x488.jpg" />
         </div>
         </div>
     )

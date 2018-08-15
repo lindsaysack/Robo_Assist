@@ -175,8 +175,8 @@ var AllBots = function (_Component) {
               { className: 'col-sm-4', key: bot.name },
               _react2.default.createElement(
                 _reactRouterDom.Link,
-                { className: 'thumbnail', to: '/bots/' + bot.robo_id.$oid, onClick: function onClick() {
-                    return fetchBot(bot.robo_id.$oid);
+                { className: 'thumbnail', to: '/bots/' + bot.name, onClick: function onClick() {
+                    return fetchBot(bot.name);
                   } },
                 _react2.default.createElement('img', { className: 'img-thumbnail', src: bot.avatar }),
                 _react2.default.createElement(
@@ -205,7 +205,8 @@ var AllBots = function (_Component) {
 
 var mapStateToProps = function mapStateToProps(state) {
   return {
-    bots: state.bots
+    bots: state.bots,
+    bot: state.selectedBot
   };
 };
 
@@ -214,8 +215,8 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
     fetchBots: function fetchBots() {
       return dispatch((0, _store.fetchBots)());
     },
-    fetchSingleBot: function fetchSingleBot(botId) {
-      return dispatch((0, _store.fetchSingleBot)(botId));
+    fetchSingleBot: function fetchSingleBot(botName) {
+      return dispatch((0, _store.fetchSingleBot)(botName));
     }
   };
 };
@@ -264,7 +265,7 @@ var HomePage = function HomePage() {
         _react2.default.createElement(
             "div",
             null,
-            _react2.default.createElement("img", { className: "center", src: "https://cdn.dribbble.com/users/449446/screenshots/2742028/campus-illustration-2.gif" })
+            _react2.default.createElement("img", { className: "center", src: "https://www.cbronline.com/wp-content/uploads/2017/08/robot-friends-770x488.jpg" })
         )
     );
 };
@@ -397,7 +398,7 @@ var Main = function (_Component) {
           ),
           _react2.default.createElement(_reactRouterDom.Route, { exact: true, path: '/', component: _HomePage2.default }),
           _react2.default.createElement(_reactRouterDom.Route, { exact: true, path: '/bots', component: _AllBots2.default }),
-          _react2.default.createElement(_reactRouterDom.Route, { exact: true, path: '/bots/:botId', component: _SingleBot2.default })
+          _react2.default.createElement(_reactRouterDom.Route, { exact: true, path: '/bots/:botName', component: _SingleBot2.default })
         )
       );
     }
@@ -458,16 +459,14 @@ var SingleBot = function (_Component) {
   _createClass(SingleBot, [{
     key: 'componentDidMount',
     value: function componentDidMount() {
-      var botId = this.props.match.params.botId;
+      var botName = this.props.match.params.botName;
 
-      console.log("botId", botId);
-      this.props.fetchBot(botId);
+      this.props.fetchBot(botName);
     }
   }, {
     key: 'render',
     value: function render() {
       var bot = this.props.bot;
-      console.log("bot", bot);
       return _react2.default.createElement(
         'div',
         null,
@@ -527,10 +526,9 @@ var mapStateToProps = function mapStateToProps(state) {
 };
 
 var mapDispatchToProps = function mapDispatchToProps(dispatch) {
-
   return {
-    fetchBot: function fetchBot(botId) {
-      return dispatch((0, _store.fetchSingleBot)(botId));
+    fetchBot: function fetchBot(botName) {
+      return dispatch((0, _store.fetchSingleBot)(botName));
     }
   };
 };
@@ -653,9 +651,9 @@ function fetchBots() {
   };
 }
 
-function fetchSingleBot(botId) {
+function fetchSingleBot(botName) {
   return function thunk(dispatch) {
-    return _axios2.default.get('/api/' + botId).then(function (res) {
+    return _axios2.default.get('/api/' + botName).then(function (res) {
       return res.data;
     }).then(function (bot) {
       var action = getBot(bot);

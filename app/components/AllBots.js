@@ -28,7 +28,7 @@ componentDidMount() {
           {bots.map(bot => {
             return (
               <div className="col-sm-4" key={bot.name}>
-                <Link className="thumbnail" to={`/bots/${bot.robo_id.$oid}`} onClick={() => fetchBot(bot.robo_id.$oid)}>
+                <Link className="thumbnail" to={`/bots/${bot.name}`} onClick={() => fetchBot(bot.name)}>
                   <img className="img-thumbnail" src={bot.avatar} />
                   <div className="caption">
                     <h4>
@@ -47,14 +47,15 @@ componentDidMount() {
 
 const mapStateToProps = state => {
   return {
-    bots: state.bots
+    bots: state.bots, 
+    bot: state.selectedBot
   }
 }
 
 const mapDispatchToProps = dispatch => {
   return {
     fetchBots: () => dispatch(fetchBots()),
-    fetchSingleBot: (botId) => dispatch(fetchSingleBot(botId))
+    fetchSingleBot: (botName) => dispatch(fetchSingleBot(botName))
   }
 }
 

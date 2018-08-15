@@ -4,15 +4,15 @@ import { Link } from 'react-router-dom';
 import store, { fetchSingleBot } from "../store";
 
 class SingleBot extends Component {
+
+
     componentDidMount() {
-        const { botId } = this.props.match.params;
-        console.log("botId", botId)
-        this.props.fetchBot(botId);
+        const { botName } = this.props.match.params;
+        this.props.fetchBot(botName);
     }
 
   render() {
     const bot = this.props.bot;
-    console.log("bot", bot)
     return (
       <div>
       <div>
@@ -60,9 +60,8 @@ const mapStateToProps = state => {
 }
   
 const mapDispatchToProps = dispatch => {
-    
     return {
-      fetchBot: botId => dispatch(fetchSingleBot(botId)),
+      fetchBot: botName => dispatch(fetchSingleBot(botName)),
     }
 } 
   
