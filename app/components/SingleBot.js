@@ -1,19 +1,20 @@
 import React, { Component } from "react";
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import store, { fetchSingleBot } from "../store";
+import store, { fetchSingleBot, fetchReviews } from "../store";
 
 class SingleBot extends Component {
 
 
-    componentDidMount() {
+    async componentDidMount() {
         const { robo_id } = this.props.match.params;
-        console.log(robo_id)
-        this.props.fetchBot(robo_id);
+        await this.props.fetchBot(robo_id);
+        this.props.bot ? this.props.fetchReviews(this.props.bot.reviews) : null
     }
 
   render() {
-    const bot = this.props.bot;
+    const { bot, reviews }= this.props;
+    console.log(reviews.content)
     return (
       <div>
       <div>
@@ -23,19 +24,20 @@ class SingleBot extends Component {
           className="img-thumbnail"
         />
         <div>
-          <h4>Model</h4>
-          <p>{bot.model}</p>
+          <h4>Model: {bot.model}</h4>
         </div>
         <div>
           <div>
         <h3>Reviews for {bot.name}</h3>
         <div className="row">
-          {/* {bot.reviews.map(review => {
+          {!reviews.content ?
+          null :
+          reviews.content.map(review => {
             return (
-              <div className="col-sm-4" key={reviewsID++}>          
+              <div className="col-sm-4" key={reviews.content.indexOf(review)}>          
                   <div className="caption">
                     <h4>
-                      <span>{review.rating}</span>
+                      <span>Rating: {review.rating}</span>
                     </h4>
                   </div>
                 <div>
@@ -43,7 +45,7 @@ class SingleBot extends Component {
                 </div>
               </div>
             );
-          })} */}
+          })}
         </div>
       </div>
 
@@ -57,12 +59,14 @@ class SingleBot extends Component {
 const mapStateToProps = state => {
     return {
       bot: state.selectedBot,
+      reviews: state.botReviews
     }
 }
   
 const mapDispatchToProps = dispatch => {
     return {
       fetchBot: robo_id => dispatch(fetchSingleBot(robo_id)),
+      fetchReviews: reviewsId => dispatch(fetchReviews(reviewsId))
     }
 } 
   

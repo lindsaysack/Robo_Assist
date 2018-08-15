@@ -464,6 +464,8 @@ var _store2 = _interopRequireDefault(_store);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; }
+
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
@@ -481,16 +483,42 @@ var SingleBot = function (_Component) {
 
   _createClass(SingleBot, [{
     key: 'componentDidMount',
-    value: function componentDidMount() {
-      var robo_id = this.props.match.params.robo_id;
+    value: function () {
+      var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
+        var robo_id;
+        return regeneratorRuntime.wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                robo_id = this.props.match.params.robo_id;
+                _context.next = 3;
+                return this.props.fetchBot(robo_id);
 
-      console.log(robo_id);
-      this.props.fetchBot(robo_id);
-    }
+              case 3:
+                this.props.bot ? this.props.fetchReviews(this.props.bot.reviews) : null;
+
+              case 4:
+              case 'end':
+                return _context.stop();
+            }
+          }
+        }, _callee, this);
+      }));
+
+      function componentDidMount() {
+        return _ref.apply(this, arguments);
+      }
+
+      return componentDidMount;
+    }()
   }, {
     key: 'render',
     value: function render() {
-      var bot = this.props.bot;
+      var _props = this.props,
+          bot = _props.bot,
+          reviews = _props.reviews;
+
+      console.log(reviews.content);
       return _react2.default.createElement(
         'div',
         null,
@@ -512,11 +540,7 @@ var SingleBot = function (_Component) {
             _react2.default.createElement(
               'h4',
               null,
-              'Model'
-            ),
-            _react2.default.createElement(
-              'p',
-              null,
+              'Model: ',
               bot.model
             )
           ),
@@ -532,7 +556,39 @@ var SingleBot = function (_Component) {
                 'Reviews for ',
                 bot.name
               ),
-              _react2.default.createElement('div', { className: 'row' })
+              _react2.default.createElement(
+                'div',
+                { className: 'row' },
+                !reviews.content ? null : reviews.content.map(function (review) {
+                  return _react2.default.createElement(
+                    'div',
+                    { className: 'col-sm-4', key: reviews.content.indexOf(review) },
+                    _react2.default.createElement(
+                      'div',
+                      { className: 'caption' },
+                      _react2.default.createElement(
+                        'h4',
+                        null,
+                        _react2.default.createElement(
+                          'span',
+                          null,
+                          'Rating: ',
+                          review.rating
+                        )
+                      )
+                    ),
+                    _react2.default.createElement(
+                      'div',
+                      null,
+                      _react2.default.createElement(
+                        'span',
+                        null,
+                        review.review
+                      )
+                    )
+                  );
+                })
+              )
             )
           )
         )
@@ -545,7 +601,8 @@ var SingleBot = function (_Component) {
 
 var mapStateToProps = function mapStateToProps(state) {
   return {
-    bot: state.selectedBot
+    bot: state.selectedBot,
+    reviews: state.botReviews
   };
 };
 
@@ -553,6 +610,9 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
   return {
     fetchBot: function fetchBot(robo_id) {
       return dispatch((0, _store.fetchSingleBot)(robo_id));
+    },
+    fetchReviews: function fetchReviews(reviewsId) {
+      return dispatch((0, _store.fetchReviews)(reviewsId));
     }
   };
 };
