@@ -14,9 +14,9 @@ const initialState = {
 
 // ACTION TYPES
 
-const GET_BOTS = 'GET_BOTS'; 
-const GET_BOT = 'GET_BOT'; 
-const GET_REVIEWS = 'GET_REVIEWS';  
+const GET_BOTS = 'GET_BOTS';
+const GET_BOT = 'GET_BOT';
+const GET_REVIEWS = 'GET_REVIEWS';
 
 // ACTION CREATORS
 
@@ -89,10 +89,10 @@ function reducer(state = initialState, action) {
         selectedBot: action.payload
       };
     case GET_REVIEWS:
-    return {
-      ...state,
-      botReviews: action.payload
-    };
+      return {
+        ...state,
+        botReviews: action.payload
+      };
     default:
       return state;
   }
