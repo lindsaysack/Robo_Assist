@@ -22,7 +22,7 @@ class AllBots extends Component {
   }
 
   render() {
-    const bots = this.props.bots.filter(bot => bot.name.toLowerCase().match(this.state.botName));
+    const bots = this.props.bots.filter(bot => bot.name.toLowerCase().match(this.state.botName.toLowerCase()));
     return (
       <div>
         <h3>Search Bots</h3>

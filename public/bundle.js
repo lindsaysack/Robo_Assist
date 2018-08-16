@@ -156,7 +156,7 @@ var AllBots = function (_Component) {
       var _this2 = this;
 
       var bots = this.props.bots.filter(function (bot) {
-        return bot.name.toLowerCase().match(_this2.state.botName);
+        return bot.name.toLowerCase().match(_this2.state.botName.toLowerCase());
       });
       return _react2.default.createElement(
         'div',
