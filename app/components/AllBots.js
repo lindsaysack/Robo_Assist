@@ -46,7 +46,7 @@ class AllBots extends Component {
             bots.map(bot => {
             return (
               <div className="col-sm-4" key={bot.name}>
-                <Link className="thumbnail" to={`/detail/${bot.robo_id.$oid}`} onClick={() => fetchSingleBot(bot.robo_id.$oid)}>
+                <Link className="thumbnail" to={`/detail/${bot.robo_id.$oid}`}>
                   <img className="img-thumbnail" src={bot.avatar} />
                   <div className="caption">
                     <h4>

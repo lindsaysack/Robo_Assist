@@ -198,9 +198,7 @@ var AllBots = function (_Component) {
               { className: 'col-sm-4', key: bot.name },
               _react2.default.createElement(
                 _reactRouterDom.Link,
-                { className: 'thumbnail', to: '/detail/' + bot.robo_id.$oid, onClick: function onClick() {
-                    return (0, _store.fetchSingleBot)(bot.robo_id.$oid);
-                  } },
+                { className: 'thumbnail', to: '/detail/' + bot.robo_id.$oid },
                 _react2.default.createElement('img', { className: 'img-thumbnail', src: bot.avatar }),
                 _react2.default.createElement(
                   'div',
@@ -456,11 +454,7 @@ var _react2 = _interopRequireDefault(_react);
 
 var _reactRedux = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
 
-var _reactRouterDom = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/es/index.js");
-
 var _store = __webpack_require__(/*! ../store */ "./app/store.js");
-
-var _store2 = _interopRequireDefault(_store);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -482,10 +476,10 @@ var SingleBot = function (_Component) {
   }
 
   _createClass(SingleBot, [{
-    key: 'componentDidMount',
+    key: "componentDidMount",
     value: function () {
       var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
-        var robo_id;
+        var robo_id, reviews;
         return regeneratorRuntime.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
@@ -495,10 +489,27 @@ var SingleBot = function (_Component) {
                 return this.props.fetchBot(robo_id);
 
               case 3:
-                this.props.bot ? this.props.fetchReviews(this.props.bot.reviews) : null;
+                if (!this.props.bot.reviews) {
+                  _context.next = 9;
+                  break;
+                }
 
-              case 4:
-              case 'end':
+                _context.next = 6;
+                return this.props.fetchReviews(this.props.bot.reviews);
+
+              case 6:
+                _context.t0 = _context.sent;
+                _context.next = 10;
+                break;
+
+              case 9:
+                _context.t0 = null;
+
+              case 10:
+                reviews = _context.t0;
+
+              case 11:
+              case "end":
                 return _context.stop();
             }
           }
@@ -512,82 +523,93 @@ var SingleBot = function (_Component) {
       return componentDidMount;
     }()
   }, {
-    key: 'render',
+    key: "componentDidUpdate",
+    value: function componentDidUpdate(prevProps) {
+      var prevBotId = prevProps.bot.robo_id ? prevProps.bot.robo_id.$oid : null;
+      if (this.props.match.params.robo_id !== prevBotId) {
+        this.props.fetchBot(this.props.match.params.robo_id);
+      }
+      if (this.props.bot.reviews !== prevProps.bot.reviews) {
+        console.log(prevProps.bot.reviews);
+        this.props.bot.reviews ? this.props.fetchReviews(this.props.bot.reviews) : null;
+      }
+    }
+  }, {
+    key: "render",
     value: function render() {
       var _props = this.props,
           bot = _props.bot,
           reviews = _props.reviews;
 
-      console.log(reviews.content);
       return _react2.default.createElement(
-        'div',
+        "div",
         null,
         _react2.default.createElement(
-          'div',
+          "div",
           null,
           _react2.default.createElement(
-            'h2',
+            "h2",
             null,
             bot.name
           ),
-          _react2.default.createElement('img', {
+          _react2.default.createElement("img", {
             src: bot.avatar,
-            className: 'img-thumbnail'
+            className: "img-thumbnail"
           }),
           _react2.default.createElement(
-            'div',
+            "div",
             null,
             _react2.default.createElement(
-              'h4',
+              "h4",
               null,
-              'Model: ',
+              "Model: ",
               bot.model
             ),
             _react2.default.createElement(
-              'h4',
+              "h4",
               null,
-              'Price: $',
+              "Price: $",
               bot.price
             )
           ),
           _react2.default.createElement(
-            'div',
+            "div",
             null,
             _react2.default.createElement(
-              'div',
+              "div",
               null,
               _react2.default.createElement(
-                'h3',
+                "h3",
                 null,
-                'Reviews for ',
+                "Reviews for ",
                 bot.name
               ),
               _react2.default.createElement(
-                'div',
-                { className: 'row' },
+                "div",
+                { className: "row" },
                 !reviews.content ? null : reviews.content.map(function (review) {
                   return _react2.default.createElement(
-                    'div',
-                    { className: 'col-sm-4', key: reviews.content.indexOf(review) },
+                    "div",
+                    { className: "col-sm-4", key: reviews.content.indexOf(review) },
                     _react2.default.createElement(
-                      'div',
-                      { className: 'caption' },
+                      "div",
+                      { className: "caption" },
                       _react2.default.createElement(
-                        'h4',
+                        "h4",
                         null,
                         _react2.default.createElement(
-                          'span',
+                          "span",
                           null,
-                          'Rating: ',
+                          "Rating: ",
                           review.rating
                         )
                       )
                     ),
                     _react2.default.createElement(
-                      'div',
+                      "div",
                       null,
                       _react2.default.createElement(
-                        'span',
+                        "span",
                         null,
                         review.review
                       )
