@@ -281,7 +281,11 @@ var HomePage = function HomePage() {
                     null,
                     "Robot Assistant Finder"
                 )
-            ),
+            )
+        ),
+        _react2.default.createElement(
+            "div",
+            null,
             _react2.default.createElement("img", { className: "img-fluid", src: "https://www.cbronline.com/wp-content/uploads/2017/08/robot-friends-770x488.jpg" })
         )
     );
