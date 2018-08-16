@@ -6,13 +6,13 @@ const HomePage = () => {
     return (
         <div>
          <div>
-            <h4 className="text-center">
+            <h4>
               <span>Robot Assistant Finder</span>
             </h4>
+        <img className="img-fluid" src="https://www.cbronline.com/wp-content/uploads/2017/08/robot-friends-770x488.jpg" />
         </div>
-        <div>
-        <img className="center" src="https://www.cbronline.com/wp-content/uploads/2017/08/robot-friends-770x488.jpg" />
-        </div>
+        {/* <div> */}
+        {/* </div> */}
         </div>
     )
 }
