@@ -275,7 +275,7 @@ var HomePage = function HomePage() {
             null,
             _react2.default.createElement(
                 "h4",
-                null,
+                { className: "text-center" },
                 _react2.default.createElement(
                     "span",
                     null,
@@ -526,7 +526,6 @@ var SingleBot = function (_Component) {
         this.props.fetchBot(this.props.match.params.robo_id);
       }
       if (this.props.bot.reviews !== prevProps.bot.reviews) {
-        console.log(prevProps.bot.reviews);
         this.props.bot.reviews ? this.props.fetchReviews(this.props.bot.reviews) : null;
       }
     }
@@ -583,7 +582,7 @@ var SingleBot = function (_Component) {
               _react2.default.createElement(
                 "div",
                 { className: "row" },
-                !reviews.content ? null : reviews.content.map(function (review) {
+                reviews.content ? reviews.content.map(function (review) {
                   return _react2.default.createElement(
                     "div",
                     { className: "col-sm-4", key: reviews.content.indexOf(review) },
@@ -611,7 +610,23 @@ var SingleBot = function (_Component) {
                       )
                     )
                   );
-                })
+                }) : _react2.default.createElement(
+                  "div",
+                  null,
+                  _react2.default.createElement(
+                    "div",
+                    null,
+                    _react2.default.createElement(
+                      "h4",
+                      null,
+                      _react2.default.createElement(
+                        "span",
+                        null,
+                        "There are no reviews to display"
+                      )
+                    )
+                  )
+                )
               )
             )
           )

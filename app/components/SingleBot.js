@@ -16,7 +16,6 @@ class SingleBot extends Component {
       this.props.fetchBot(this.props.match.params.robo_id);
     }
     if (this.props.bot.reviews !== prevProps.bot.reviews) {
-      console.log(prevProps.bot.reviews)
       this.props.bot.reviews ? this.props.fetchReviews(this.props.bot.reviews) : null; 
     }
   }
@@ -39,8 +38,7 @@ class SingleBot extends Component {
             <div>
               <h3>Reviews for {bot.name}</h3>
               <div className="row">
-                {!reviews.content ?
-                  null :
+                {reviews.content ?
                   reviews.content.map(review => {
                     return (
                       <div className="col-sm-4" key={reviews.content.indexOf(review)}>
@@ -54,7 +52,16 @@ class SingleBot extends Component {
                         </div>
                       </div>
                     );
-                  })}
+                  }) :
+                  (<div>
+                    <div>
+                    <h4>
+                      <span>There are no reviews to display</span>
+
+                    </h4>
+                    </div>
+                  </div>
+                  )}
               </div>
             </div>
 
