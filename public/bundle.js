@@ -521,10 +521,12 @@ var SingleBot = function (_Component) {
   }, {
     key: "componentDidUpdate",
     value: function componentDidUpdate(prevProps) {
+      //check to see if the selected robot id from params matches the robot id from before
       var prevBotId = prevProps.bot.robo_id ? prevProps.bot.robo_id.$oid : null;
       if (this.props.match.params.robo_id !== prevBotId) {
         this.props.fetchBot(this.props.match.params.robo_id);
       }
+      //another attempt to render selected robot's reviews, without requiring a page refresh
       if (this.props.bot.reviews !== prevProps.bot.reviews) {
         this.props.bot.reviews ? this.props.fetchReviews(this.props.bot.reviews) : null;
       }
@@ -614,16 +616,12 @@ var SingleBot = function (_Component) {
                   "div",
                   null,
                   _react2.default.createElement(
-                    "div",
+                    "h4",
                     null,
                     _react2.default.createElement(
-                      "h4",
+                      "span",
                       null,
-                      _react2.default.createElement(
-                        "span",
-                        null,
-                        "There are no reviews to display"
-                      )
+                      "There are no reviews to display"
                     )
                   )
                 )

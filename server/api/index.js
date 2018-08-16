@@ -3,8 +3,12 @@ const apiRouter = require('express').Router();
 const http = require('http');
 
 module.exports = apiRouter;
+//create variables to capture bots and reviews 
+let parsedBots = {};
+let singleBot = {};
+let botReviews = {};
 
-//set options for requesting all bots
+//set http request options to retrieve all bots
 let botsOptions = {
     host: "localhost",
     port: 3000,
@@ -15,10 +19,6 @@ let botsOptions = {
     }
 }
 
-//create variables to capture bots and reviews 
-let parsedBots = {};
-let singleBot = {};  
-let botReviews = {}; 
 
 //http request for all bots
 let botsReq = http.request(botsOptions, function (res) {
@@ -29,15 +29,15 @@ let botsReq = http.request(botsOptions, function (res) {
     });
     res.on("end", function () {
         parsedBots = JSON.parse(responseString);
-        console.log(parsedBots); 
-        
+        console.log(parsedBots);
+
         // print to console when response ends
     });
 });
 
 botsReq.on('error', (e) => {
     console.error(`problem with request: ${e.message}`);
-  });
+});
 botsReq.write("hello world");
 botsReq.end();
 
@@ -54,15 +54,16 @@ apiRouter.get('/:robo_id', (req, res) => {
         });
         res.on("end", function () {
             singleBot = JSON.parse(responseString).filter(bot => {
-                return bot.robo_id.$oid === req.params.robo_id})
-            console.log(singleBot[0]); 
+                return bot.robo_id.$oid === req.params.robo_id
+            })
+            console.log(singleBot[0]);
             // print to console when response ends
         });
     });
-    
+
     botsReq.on('error', (e) => {
         console.error(`problem with request: ${e.message}`);
-      });
+    });
     botsReq.write("hello world");
     botsReq.end();
 
@@ -80,21 +81,21 @@ apiRouter.get('/reviews/:reviewsId', (req, res) => {
                 "Authorization": "af7822b30e7a65d"
             }
         }, function (res) {
-        var responseString = "";
-        res.on("data", function (data) {
-            responseString += data;
-            // save all the data from response
+            var responseString = "";
+            res.on("data", function (data) {
+                responseString += data;
+                // save all the data from response
+            });
+            res.on("end", function () {
+                botReviews = JSON.parse(responseString)
+                console.log(botReviews);
+                // print to console when response ends
+            });
         });
-        res.on("end", function () {
-            botReviews = JSON.parse(responseString)
-            console.log(botReviews); 
-            // print to console when response ends
-        });
-    });
-    
+
     reviewsReq.on('error', (e) => {
         console.error(`problem with request: ${e.message}`);
-      });
+    });
     reviewsReq.write("hello world");
     reviewsReq.end();
 
@@ -103,5 +104,5 @@ apiRouter.get('/reviews/:reviewsId', (req, res) => {
 
 
 apiRouter.use(function (req, res) {
-	res.status(404).end();
-  });
+    res.status(404).end();
+});

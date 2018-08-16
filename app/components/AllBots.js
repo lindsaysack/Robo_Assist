@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { fetchBots, fetchSingleBot } from '../store';
-import {connect} from 'react-redux'
+import { connect } from 'react-redux'
 
 class AllBots extends Component {
   constructor() {
@@ -26,37 +26,37 @@ class AllBots extends Component {
     return (
       <div>
         <h3>Search Bots</h3>
-        <form className="form-group" style={{marginTop: '20px'}}>
+        <form className="form-group" style={{ marginTop: '20px' }}>
           <input
             className="form-control"
             value={this.state.botName}
             name="botName"
             placeholder="Enter bot's name"
-            onChange={this.handleChange}   
+            onChange={this.handleChange}
           />
         </form>
         <div className="row">
           {(bots.length === 0) ?
-          (<div>
-            <div>
-            <h3>There are no bots to display</h3>
-            </div>
-          </div>
-          ) :
-            bots.map(bot => {
-            return (
-              <div className="col-sm-4" key={bot.name}>
-                <Link className="thumbnail" to={`/detail/${bot.robo_id.$oid}`}>
-                  <img className="img-thumbnail" src={bot.avatar} />
-                  <div className="caption">
-                    <h4>
-                      <span>{bot.name}</span>
-                    </h4>
-                  </div>
-                </Link>
+            (<div>
+              <div>
+                <h3>There are no bots to display</h3>
               </div>
-            );
-          })}
+            </div>
+            ) :
+            bots.map(bot => {
+              return (
+                <div className="col-sm-4" key={bot.name}>
+                  <Link className="thumbnail" to={`/detail/${bot.robo_id.$oid}`}>
+                    <img className="img-thumbnail" src={bot.avatar} />
+                    <div className="caption">
+                      <h4>
+                        <span>{bot.name}</span>
+                      </h4>
+                    </div>
+                  </Link>
+                </div>
+              );
+            })}
         </div>
       </div>
     );
@@ -65,7 +65,7 @@ class AllBots extends Component {
 
 const mapStateToProps = state => {
   return {
-    bots: state.bots, 
+    bots: state.bots,
     bot: state.selectedBot
   }
 }

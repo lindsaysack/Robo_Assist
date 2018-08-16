@@ -7,16 +7,19 @@ class SingleBot extends Component {
   async componentDidMount() {
     let { robo_id } = this.props.match.params;
     await this.props.fetchBot(robo_id);
+    //attempt to wait for the selected Robot to be set to the state before using the Robot's review ID to fetch reviews. currently reviews will only render after refresh
     let reviews = this.props.bot.reviews ? await this.props.fetchReviews(this.props.bot.reviews) : null
   }
 
   componentDidUpdate(prevProps) {
+    //check to see if the selected robot id from params matches the robot id from before
     let prevBotId = prevProps.bot.robo_id ? prevProps.bot.robo_id.$oid : null;
     if (this.props.match.params.robo_id !== prevBotId) {
       this.props.fetchBot(this.props.match.params.robo_id);
     }
+    //another attempt to render selected robot's reviews, without requiring a page refresh
     if (this.props.bot.reviews !== prevProps.bot.reviews) {
-      this.props.bot.reviews ? this.props.fetchReviews(this.props.bot.reviews) : null; 
+      this.props.bot.reviews ? this.props.fetchReviews(this.props.bot.reviews) : null;
     }
   }
 
@@ -54,12 +57,10 @@ class SingleBot extends Component {
                     );
                   }) :
                   (<div>
-                    <div>
                     <h4>
                       <span>There are no reviews to display</span>
 
                     </h4>
-                    </div>
                   </div>
                   )}
               </div>
